@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Transcript Analysis"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp"/>
+
+    <Button
+        android:id="@+id/btnScanDoc"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Scan Transcript (Camera)"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnUploadFile"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:backgroundTint="#607D8B"
+        android:text="Upload PDF/JPG"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE"
+        android:padding="15dp"
+        android:text="Status: No transcript detected"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btnGetRecommendations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Recommendations via SMS"
+        android:backgroundTint="#4CAF50"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

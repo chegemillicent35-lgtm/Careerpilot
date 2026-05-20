@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Careerpilot</string>
+
+    <string-array name="spinner_course">
+        <item>Bachelor in Business Administration</item>
+        <item>Bachelor in Business Administration, With IT</item>
+        <item>Bachelor of Business and Office Management</item>
+        <item>Bachelor of Business Management</item>
+        <item>Bachelor of Business Management (Marine Business Management)</item>
+        <item>Bachelor of Arts (Drama and Theatre Studies, With IT)</item>
+        <item>Bachelor of Communication and Public Relations</item>
+        <item>Bachelor of Arts (International Relations and Diplomacy, With IT)</item>
+        <item>Bachelor of Communication and Public Relations</item>
+        <item>Bachelor of Arts (International Relations and Diplomacy)</item>
+        <item>Bachelor of Science (Communication and Journalism)</item>
+        <item>Bachelor of Arts in Government and International Relations</item>
+        <item>Bachelor of Science (Geomatic and Geospatial Information Systems)</item>
+        <item>Bachelor of Applied Science (Geo-informatics)</item>
+        <item>Bachelor of Science (Geospatial Information Science and Remote Sensing)</item>
+        <item>Bachelor of Science (Geomatic Engineering and Geospatial Information Systems)</item>
+        <item>Bachelor of Science (Geospatial Information Science, With IT)</item>
+        <item>Bachelor of Technology (Geoinformation Technology)</item>
+        <item>Bachelor of Science (Mechanical and Industrial Engineering)</item>
+        <item>Bachelor of Science (Mechanical Manufacturing Engineering)</item>
+        <item>Bachelor of Science in Mechanical Engineering</item>
+        <item>Bachelor of Science (Mechanical Engineering)</item>
+
+    </string-array>
+
+    <string-array name="spinner_campus">
+        <item>University of Nairobi</item>
+        <item>Moi University</item>
+        <item>Kenyatta University</item>
+        <item>Egerton University</item>
+        <item>Maseno University</item>
+        <item>Jomo Kenyatta University of Agriculture and Technology</item>
+        <item>Technical University of Mombasa</item>
+        <item>Masinde Muliro University of Science and Technology</item>
+        <item>Dedan Kimathi University of Technology</item>
+        <item>Chuka University</item>
+        <item>Laikipia University</item>
+        <item>Kisii University</item>
+        <item>Multimedia University of Kenya</item>
+        <item>University of Kabianga</item>
+        <item>Karatina University</item>
+        <item>Meru University of Science and Technology</item>
+        <item>Kirinyaga University</item>
+        <item>Muranga University of Technology</item>
+        <item>Machakos University</item>
+        <item>Maasai Mara University</item>
+        <item>Technical University of Kenya</item>
+        <item>Taita Taveta University</item>
+        <item>University of Embu</item>
+    </string-array>
+    <string name="cart_courses_info"><a href="https://example.com/courses">Click here for more courses</a></string>
+    <string name="cart_institutions_info"><a href="https://example.com/institutions">Click here for more institutions</a></string>
+    <string name="google_maps_api_key">YOUR_GOOGLE_MAPS_API_KEY</string>
+
+</resources>
