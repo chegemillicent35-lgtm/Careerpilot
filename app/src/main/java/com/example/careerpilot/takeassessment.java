@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -26,10 +27,13 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScanning;
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult;
 
 public class takeassessment extends AppCompatActivity {
+    private static final int SMS_PERMISSION_REQUEST_CODE = 101;
+
     private TextView statusText;
     private Button btnGetRecommendations;
     private GmsDocumentScanner scanner;
     private boolean transcriptCaptured = false;
+    private String pendingPhoneNumber;
 
     private final ActivityResultLauncher<IntentSenderRequest> scannerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartIntentSenderForResult(),
@@ -57,9 +61,11 @@ public class takeassessment extends AppCompatActivity {
         scanner = GmsDocumentScanning.getClient(options);
 
         findViewById(R.id.btnScanDoc).setOnClickListener(v -> {
-            scanner.getStartScanIntent(this).addOnSuccessListener(intentSender -> {
-                scannerLauncher.launch(new IntentSenderRequest.Builder(intentSender).build());
-            });
+            scanner.getStartScanIntent(this)
+                    .addOnSuccessListener(intentSender ->
+                            scannerLauncher.launch(new IntentSenderRequest.Builder(intentSender).build()))
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Could not open scanner: " + e.getMessage(), Toast.LENGTH_LONG).show());
         });
 
         btnGetRecommendations.setOnClickListener(v -> promptForNumber());
@@ -72,19 +78,29 @@ public class takeassessment extends AppCompatActivity {
         input.setHint("07XXXXXXXX");
         builder.setView(input);
         builder.setPositiveButton("Send", (dialog, which) -> {
-            String phone = input.getText().toString();
-            if (phone.length() >= 10) sendSms(phone);
+            String phone = input.getText().toString().trim();
+            if (!transcriptCaptured) {
+                Toast.makeText(this, "Scan a transcript first.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (phone.length() >= 10) {
+                sendSms(phone);
+            } else {
+                Toast.makeText(this, "Enter a valid phone number.", Toast.LENGTH_SHORT).show();
+            }
         });
         builder.show();
     }
 
     private void sendSms(String phone) {
-        // Runtime Permission Check
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 101);
+            pendingPhoneNumber = phone;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, SMS_PERMISSION_REQUEST_CODE);
             return;
         }
 
+        pendingPhoneNumber = null;
         String phoneFormatted = phone.startsWith("0") ? "+254" + phone.substring(1) : phone;
         String msg = "CareerPilot: We recommend Engineering. Best Unis: JKUAT, UoN, Strathmore.";
 
@@ -92,14 +108,28 @@ public class takeassessment extends AppCompatActivity {
             SmsManager smsManager = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) ?
                     this.getSystemService(SmsManager.class) : SmsManager.getDefault();
             smsManager.sendTextMessage(phoneFormatted, null, msg, null, null);
-            Toast.makeText(this, "Sending SMS...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Recommendations sent by SMS.", Toast.LENGTH_SHORT).show();
             finish();
         } catch (Exception e) {
-            // FALLBACK: Open SMS App if background send is blocked
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneFormatted));
             intent.putExtra("sms_body", msg);
             startActivity(intent);
             finish();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != SMS_PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && pendingPhoneNumber != null) {
+            sendSms(pendingPhoneNumber);
+        } else {
+            pendingPhoneNumber = null;
+            Toast.makeText(this, "SMS permission is required to send recommendations.", Toast.LENGTH_LONG).show();
         }
     }
 }
