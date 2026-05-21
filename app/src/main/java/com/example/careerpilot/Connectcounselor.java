@@ -34,18 +34,13 @@ public class Connectcounselor extends AppCompatActivity {
         m.setSnippet("Tap bubble to book appointment");
 
         m.setOnMarkerClickListener((marker, mapView) -> {
-            marker.showInfoWindow();
-            // FIX: Bubble Click Logic
-            if (marker.getInfoWindow() != null) {
-                marker.getInfoWindow().getView().setOnClickListener(v -> {
-                    Intent i = new Intent(Connectcounselor.this, BookAppointment.class);
-                    i.putExtra("COUNSELOR_NAME", marker.getTitle());
-                    startActivity(i);
-                });
-            }
+            Intent i = new Intent(Connectcounselor.this, BookAppointment.class);
+            i.putExtra("COUNSELOR_NAME", marker.getTitle());
+            startActivity(i);
             return true;
         });
         map.getOverlays().add(m);
+        map.invalidate();
     }
 
     @Override protected void onResume() { super.onResume(); map.onResume(); }
